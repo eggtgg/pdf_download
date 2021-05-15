@@ -18,16 +18,15 @@ def tim_link_download(link_khoi_dau):
         k = 'https://www.efsa.europa.eu' + k
         link_2 = requests.get(k)
         link_2_soup = BeautifulSoup(link_2.text, 'html.parser')
-        result_2 = link_2_soup('a', attrs={'class': 'efsa-file-item--pdf'})
+        result_2 = link_2_soup('a', attrs={'class': 'efsa-file-item efsa-file-item--zip'})
         k2 = result_2[0]['href']
-        k3 = k2.replace('epdf', 'pdfdirect') + '?download=true'
-        list_link_can_download.append(k3)
+        list_link_can_download.append(k2)
 
     return list_link_can_download
 
-link_khoi_dau = 'https://www.efsa.europa.eu/en/publications?f%5B0%5D=%3A62081&f%5B1%5D=%3Aconclusion_on_pesticides&f%5B2%5D=type%3A331&fbclid=IwAR3zRD1tI9UvPuIt2u1UcM05ZMawI64ztY0RdvzP8PrTr3ObcgWak4jl8PA&s=&page=0'
+link_khoi_dau = 'https://www.efsa.europa.eu/en/search?s=public%20consultation%20on%20active%20substances&fbclid=IwAR2nCpW6KXTqPqZjOEvYfaQceiE9CvdeogqzifSnOTom4d-1fKV4iJi21UA&page=0'
 list_link_download = []
-for page in range(62):
+for page in range(10):
     link_page = link_khoi_dau[0:-1] + str(page)
     list_link_download += tim_link_download(link_page)
 
@@ -37,4 +36,4 @@ browser = webdriver.Chrome(executable_path="chromedriver.exe")
 # 2. Mở thử một trang web
 for link in list_link_download:
     browser.get(link)
-    sleep(3)
+    sleep(0.5)
